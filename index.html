@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bárbara Fuentes · Fotografía Pole Dance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #2A0E4F;
+      --primary-mid: #4B2080;
+      --primary-light: #EDE4FF;
+      --accent: #E8B800;
+      --accent-dark: #C9A200;
+      --white: #FFFFFF;
+      --soft: #F7F3FF;
+      --gray: #7A7490;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--primary);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #E8DEFF;
+      padding: 0 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 62px;
+    }
+    .nav-brand {
+      font-family: var(--serif); font-size: 18px; font-weight: 700;
+      color: var(--primary); text-decoration: none;
+    }
+    .nav-brand span { color: var(--accent); font-style: italic; }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
+    .nav-links a { font-size: 13px; font-weight: 500; color: var(--gray); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-cta-link {
+      background: var(--primary) !important; color: white !important;
+      padding: 8px 22px; border-radius: 50px; font-weight: 600 !important;
+    }
+    .nav-cta-link:hover { background: var(--primary-mid) !important; }
+
+    /* HERO */
+    .hero {
+      padding: 7rem 2.5rem 5.5rem; max-width: 780px; margin: 0 auto;
+      text-align: center; animation: fadeUp 0.8s ease both;
+    }
+
+    /* Evento destacado */
+    .hero-event {
+      display: inline-flex; flex-direction: column; align-items: center;
+      gap: 0.6rem;
+      margin: 0 auto 2.8rem;
+    }
+    .hero-event-name {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 7vw, 4.6rem);
+      font-weight: 700;
+      font-style: italic;
+      color: var(--primary);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+    .hero-event-name span { color: var(--accent); }
+    .hero-event-divider {
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius: 2px;
+    }
+    .hero-event-date {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gray);
+    }
+
+    .hero-cta {
+      display: inline-block; padding: 14px 38px;
+      background: var(--primary); color: white;
+      font-family: var(--sans); font-size: 13px; font-weight: 600;
+      letter-spacing: 0.04em; text-decoration: none;
+      border-radius: 50px; transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 8px 24px rgba(42,14,79,0.22);
+    }
+    .hero-cta:hover { background: var(--primary-mid); transform: translateY(-2px); }
+    .hero-pills { display: flex; justify-content: center; gap: 10px; margin-top: 2.5rem; flex-wrap: wrap; }
+    .hero-pill {
+      font-size: 12px; font-weight: 500; color: var(--gray);
+      background: var(--soft); border: 1px solid #DDD0F5;
+      padding: 5px 14px; border-radius: 50px;
+    }
+
+    .divider { border: none; border-top: 1px solid #E8DEFF; margin: 0; }
+
+    /* SECTION */
+    section { padding: 5rem 2.5rem; max-width: 980px; margin: 0 auto; }
+    .section-header { margin-bottom: 2.5rem; }
+    .section-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+    .section-title { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--primary); line-height: 1.15; }
+    .section-title em { font-style: italic; color: var(--primary-mid); }
+
+    /* PACKS */
+    .packs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 16px; }
+    .pack-card {
+      background: var(--soft); border: 1.5px solid #DDD0F5; border-radius: 20px;
+      padding: 1.75rem; display: flex; flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .pack-card:hover { border-color: var(--primary-mid); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(42,14,79,0.12); }
+    .pack-card.featured { background: var(--primary); border-color: var(--primary); }
+    .pack-card.featured .pack-type,
+    .pack-card.featured .pack-name,
+    .pack-card.featured .pack-desc,
+    .pack-card.featured .pack-note,
+    .pack-card.featured .pack-price-clp { color: white; }
+    .pack-card.featured .pack-price-usd { color: rgba(255,255,255,0.55); }
+    .pack-type { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.75rem; }
+    .pack-name { font-family: var(--serif); font-size: 1.3rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; line-height: 1.2; }
+    .pack-desc { font-size: 13px; color: var(--gray); line-height: 1.65; flex: 1; margin-bottom: 0.75rem; }
+    .pack-note { font-size: 11.5px; color: var(--gray); font-style: italic; line-height: 1.55; margin-bottom: 1.25rem; opacity: 0.85; }
+    .pack-price-clp { font-family: var(--serif); font-size: 1.7rem; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
+    .pack-price-usd { font-size: 12px; color: var(--gray); margin-bottom: 1.25rem; }
+    .pack-btn { display: block; text-align: center; padding: 11px 0; border: 2px solid var(--primary); font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: var(--primary); cursor: pointer; background: transparent; border-radius: 50px; transition: background 0.18s, color 0.18s; width: 100%; font-family: var(--sans); }
+    .pack-btn:hover { background: var(--primary); color: white; }
+    .pack-btn.featured-btn { background: var(--accent); color: white; border-color: var(--accent); }
+    .pack-btn.featured-btn:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+
+    /* BOOKING */
+    .booking-wrap { max-width: 580px; margin: 0 auto; }
+    .booking-card { background: var(--soft); border: 1.5px solid #DDD0F5; border-radius: 24px; padding: 2.5rem; }
+    .booking-card h2 { font-family: var(--serif); font-size: 1.9rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--primary); }
+    .booking-card .sub { font-size: 13px; color: var(--gray); margin-bottom: 2rem; }
+    .field { margin-bottom: 1.2rem; }
+    .field label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary-mid); margin-bottom: 7px; }
+    .field input, .field select, .field textarea { width: 100%; padding: 11px 16px; border: 1.5px solid #D5C5F0; border-radius: 12px; font-family: var(--sans); font-size: 14px; color: var(--primary); background: white; outline: none; transition: border-color 0.2s, box-shadow 0.2s; appearance: none; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--primary-mid); box-shadow: 0 0 0 3px rgba(75,32,128,0.1); }
+    .field textarea { resize: vertical; min-height: 90px; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .submit-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 50px; font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; margin-top: 0.75rem; transition: background 0.2s, transform 0.15s; box-shadow: 0 8px 24px rgba(42,14,79,0.22); }
+    .submit-btn:hover { background: var(--primary-mid); transform: translateY(-2px); }
+    .form-note { text-align: center; font-size: 12px; color: var(--gray); margin-top: 1rem; }
+
+    /* SUCCESS */
+    .success-msg { display: none; text-align: center; padding: 3rem 1rem; }
+    .success-icon { width: 70px; height: 70px; background: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 30px; }
+    .success-msg h3 { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem; }
+    .success-msg p { font-size: 14px; color: var(--gray); line-height: 1.9; max-width: 360px; margin: 0 auto; }
+    .success-msg strong { color: var(--primary); }
+
+    /* FOOTER */
+    footer { background: var(--primary); padding: 2.5rem; text-align: center; }
+    footer p { font-size: 13px; color: rgba(255,255,255,0.5); }
+    footer a { color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--accent); }
+    .footer-brand { font-family: var(--serif); font-size: 20px; font-weight: 700; color: white; margin-bottom: 0.75rem; }
+    .footer-brand span { color: var(--accent); font-style: italic; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      section { padding: 3.5rem 1.25rem; }
+      .hero { padding: 4rem 1.25rem 3rem; }
+      .field-row { grid-template-columns: 1fr; }
+      .booking-card { padding: 1.75rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="#">
+    <img src="logo-bf.jpeg" alt="Bárbara Fuentes" style="height:44px; width:auto; display:block;" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="#packs">Packs</a></li>
+    <li><a href="#reservar" class="nav-cta-link">Reservar ahora</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-event">
+    <div class="hero-event-name"><span>Musa</span> Pole Championship</div>
+    <div class="hero-event-divider"></div>
+    <div class="hero-event-date">✦ 8 de agosto 2026 ✦</div>
+  </div>
+  <a class="hero-cta" href="#packs">Ver packs y precios ↓</a>
+  <div class="hero-pills">
+    <span class="hero-pill">✦ Edición profesional</span>
+    <span class="hero-pill">✦ Entrega rápida</span>
+    <span class="hero-pill">✦ Foto + Video</span>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<section id="packs">
+  <div class="section-header">
+    <p class="section-eyebrow">Elige tu pack</p>
+    <h2 class="section-title">Packs disponibles</h2>
+  </div>
+  <div class="packs-grid">
+
+    <!-- Pack 1 -->
+    <div class="pack-card">
+      <p class="pack-type">Pack 1 · Fotografía</p>
+      <h3 class="pack-name">Fotografía</h3>
+      <p class="pack-desc">15 fotografías con postproducción en color y blanco & negro.</p>
+      <p class="pack-note">📩 Recibirás una selección en baja resolución con marca de agua para elegir tus favoritas.</p>
+      <p class="pack-price-clp">$50.000</p>
+      <p class="pack-price-usd">CLP</p>
+      <button class="pack-btn" onclick="seleccionarPack('Pack 1 – Fotografía · $50.000 CLP')">Seleccionar</button>
+    </div>
+
+    <!-- Pack 2 -->
+    <div class="pack-card">
+      <p class="pack-type">Pack 2 · Video</p>
+      <h3 class="pack-name">Video</h3>
+      <p class="pack-desc">Registro completo de la presentación a una cámara con calidad profesional.</p>
+      <p class="pack-price-clp">$60.000</p>
+      <p class="pack-price-usd">CLP</p>
+      <button class="pack-btn" onclick="seleccionarPack('Pack 2 – Video · $60.000 CLP')">Seleccionar</button>
+    </div>
+
+    <!-- Pack 3 -->
+    <div class="pack-card featured">
+      <span style="display:inline-block; font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; background:var(--accent); color:white; padding:3px 10px; border-radius:50px; margin-bottom:0.75rem;">⭐ Mejor valor</span>
+      <p class="pack-type">Pack 3 · Foto + Video</p>
+      <h3 class="pack-name">Foto + Video</h3>
+      <p class="pack-desc">15 fotografías con postproducción en color y blanco & negro + registro completo de la presentación a una cámara con calidad profesional.</p>
+      <p class="pack-price-clp">$99.000</p>
+      <p class="pack-price-usd">CLP</p>
+      <button class="pack-btn featured-btn" onclick="seleccionarPack('Pack 3 – Foto + Video · $99.000 CLP')">Seleccionar</button>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<section id="reservar">
+  <div class="booking-wrap" style="margin-top:0;">
+    <div class="booking-card">
+      <div id="form-area">
+        <h2>Reserva tu pack</h2>
+        <p class="sub">Completa el formulario y serás redirigida al pago seguro con MercadoPago.</p>
+
+        <div class="field">
+          <label>Pack seleccionado</label>
+          <select id="pack-select">
+            <option value="">— Elige un pack —</option>
+            <option>Pack 1 – Fotografía · $50.000 CLP</option>
+            <option>Pack 2 – Video · $60.000 CLP</option>
+            <option>Pack 3 – Foto + Video · $99.000 CLP</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Nombre</label>
+            <input type="text" id="nombre" placeholder="Tu nombre" />
+          </div>
+          <div class="field">
+            <label>Correo electrónico</label>
+            <input type="email" id="correo" placeholder="tu@correo.com" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Mensaje (opcional)</label>
+          <textarea id="mensaje" placeholder="¿Algo que debamos saber? Nivel, espacio, vestuario..."></textarea>
+        </div>
+
+        <button class="submit-btn" onclick="enviarReserva()">Solicitar mi reserva →</button>
+        <p class="form-note">🔒 Pago seguro con MercadoPago · Serás redirigida al finalizar</p>
+      </div>
+
+      <div class="success-msg" id="success-msg">
+        <div class="success-icon">💌</div>
+        <h3>Reserva recibida</h3>
+        <p>Tu reserva fue registrada. Ahora serás redirigida al pago seguro con <strong>MercadoPago</strong>.<br><br>Gracias por confiar en <strong>Bárbara Fuentes</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">Bárbara <span>Fuentes</span></div>
+  <p>Fotografía Pole Dance · Santiago de Chile</p>
+  <p style="margin-top:8px;">
+    <a href="mailto:tu@correo.cl">tu@correo.cl</a>
+    &nbsp;·&nbsp;
+    <a href="https://instagram.com/" target="_blank">@tuusuario</a>
+  </p>
+  <p style="margin-top:16px;">© 2026 Bárbara Fuentes</p>
+</footer>
+
+<script>
+  const LINKS_PAGO = {
+    'Pack 1 – Fotografía · $50.000 CLP':     'https://mpago.la/2582Z9d',
+    'Pack 2 – Video · $60.000 CLP':           'https://mpago.la/2GxzBMu',
+    'Pack 3 – Foto + Video · $99.000 CLP':    'https://mpago.la/2TvFUgd',
+  };
+
+  function seleccionarPack(nombre) {
+    document.getElementById('pack-select').value = nombre;
+    document.getElementById('reservar').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function enviarReserva() {
+    const pack = document.getElementById('pack-select').value;
+    const nombre = document.getElementById('nombre').value.trim();
+    const correo = document.getElementById('correo').value.trim();
+    const mensaje = document.getElementById('mensaje').value.trim();
+
+    if (!pack || !nombre || !correo) {
+      alert('Por favor completa los campos obligatorios: pack, nombre y correo.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(correo)) {
+      alert('Por favor ingresa un correo válido.');
+      return;
+    }
+
+    const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzek_6UXLiagPOrLa3JBIsCRSxCTkVoaCE2TaJfrg8dfpcl5jlP1PvH7dMAT_8XAdvL/exec';
+
+    fetch(URL_SCRIPT, {
+      method: 'POST',
+      body: JSON.stringify({ pack, nombre, correo, mensaje }),
+    })
+    .then(() => {
+      document.getElementById('form-area').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+
+      const linkPago = LINKS_PAGO[pack];
+      if (linkPago) {
+        setTimeout(() => { window.location.href = linkPago; }, 2500);
+      }
+    })
+    .catch(() => {
+      alert('Hubo un error al enviar. Intenta de nuevo.');
+    });
+  }
+</script>
+
+</body>
+</html>
