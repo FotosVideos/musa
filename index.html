@@ -61,21 +61,15 @@
       padding: 7rem 2.5rem 5.5rem; max-width: 780px; margin: 0 auto;
       text-align: center; animation: fadeUp 0.8s ease both;
     }
-
-    /* Evento destacado */
     .hero-event {
       display: inline-flex; flex-direction: column; align-items: center;
-      gap: 0.6rem;
-      margin: 0 auto 2.8rem;
+      gap: 0.6rem; margin: 0 auto 2.8rem;
     }
     .hero-event-name {
       font-family: var(--serif);
       font-size: clamp(2.6rem, 7vw, 4.6rem);
-      font-weight: 700;
-      font-style: italic;
-      color: var(--primary);
-      line-height: 1.05;
-      letter-spacing: -0.01em;
+      font-weight: 700; font-style: italic;
+      color: var(--primary); line-height: 1.05; letter-spacing: -0.01em;
     }
     .hero-event-name span { color: var(--accent); }
     .hero-event-divider {
@@ -87,7 +81,6 @@
       font-size: 12px; font-weight: 600; letter-spacing: 0.2em;
       text-transform: uppercase; color: var(--gray);
     }
-
     .hero-cta {
       display: inline-block; padding: 14px 38px;
       background: var(--primary); color: white;
@@ -111,7 +104,6 @@
     .section-header { margin-bottom: 2.5rem; }
     .section-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
     .section-title { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--primary); line-height: 1.15; }
-    .section-title em { font-style: italic; color: var(--primary-mid); }
 
     /* PACKS */
     .packs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 16px; }
@@ -231,7 +223,7 @@
     <div class="pack-card">
       <p class="pack-type">Pack 2 · Video</p>
       <h3 class="pack-name">Video</h3>
-      <p class="pack-desc">Registro completo de la presentación a una cámara con calidad profesional.</p>
+      <p class="pack-desc">Registro completo de la presentación a una cámara con con postproducción.</p>
       <p class="pack-price-clp">$60.000</p>
       <p class="pack-price-usd">CLP</p>
       <button class="pack-btn" onclick="seleccionarPack('Pack 2 – Video · $60.000 CLP')">Seleccionar</button>
@@ -242,7 +234,7 @@
       <span style="display:inline-block; font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; background:var(--accent); color:white; padding:3px 10px; border-radius:50px; margin-bottom:0.75rem;">⭐ Mejor valor</span>
       <p class="pack-type">Pack 3 · Foto + Video</p>
       <h3 class="pack-name">Foto + Video</h3>
-      <p class="pack-desc">15 fotografías con postproducción en color y blanco & negro + registro completo de la presentación a una cámara con calidad profesional.</p>
+      <p class="pack-desc">15 fotografías con postproducción en color y blanco & negro + registro completo de la presentación a una cámara con con postproducción.</p>
       <p class="pack-price-clp">$99.000</p>
       <p class="pack-price-usd">CLP</p>
       <button class="pack-btn featured-btn" onclick="seleccionarPack('Pack 3 – Foto + Video · $99.000 CLP')">Seleccionar</button>
@@ -290,10 +282,17 @@
         <p class="form-note">🔒 Pago seguro con MercadoPago · Serás redirigida al finalizar</p>
       </div>
 
+      <!-- ── MENSAJE DE ÉXITO ──────────────────────────────────────────────────
+           Se muestra al enviar el formulario exitosamente.
+           El contenido de #success-detail se reemplaza dinámicamente desde JS
+           con el número de orden y la fecha de entrega calculada por tandas.
+      ─────────────────────────────────────────────────────────────────────── -->
       <div class="success-msg" id="success-msg">
         <div class="success-icon">💌</div>
-        <h3>Reserva recibida</h3>
-        <p>Tu reserva fue registrada. Ahora serás redirigida al pago seguro con <strong>MercadoPago</strong>.<br><br>Gracias por confiar en <strong>Bárbara Fuentes</strong>.</p>
+        <h3>¡Reserva recibida!</h3>
+        <p id="success-detail">
+          <!-- JS inyecta aquí: número de orden + fecha de entrega + aviso de correo -->
+        </p>
       </div>
     </div>
   </div>
@@ -303,7 +302,8 @@
   <div class="footer-brand">Bárbara <span>Fuentes</span></div>
   <p>Fotografía Pole Dance · Santiago de Chile</p>
   <p style="margin-top:8px;">
-    <a href="mailto:tu@correo.cl">tu@correo.cl</a>
+    <!-- ── CORREO ACTUALIZADO al de Bárbara ── -->
+    <a href="mailto:b.fuentesfoto@gmail.com">b.fuentesfoto@gmail.com</a>
     &nbsp;·&nbsp;
     <a href="https://instagram.com/" target="_blank">@tuusuario</a>
   </p>
@@ -311,47 +311,102 @@
 </footer>
 
 <script>
+  // ── LINKS DE PAGO MERCADOPAGO ─────────────────────────────────────────────
+  // Sin cambios respecto a la versión anterior
   const LINKS_PAGO = {
-    'Pack 1 – Fotografía · $50.000 CLP':     'https://mpago.la/2582Z9d',
-    'Pack 2 – Video · $60.000 CLP':           'https://mpago.la/2GxzBMu',
-    'Pack 3 – Foto + Video · $99.000 CLP':    'https://mpago.la/2TvFUgd',
+    'Pack 1 – Fotografía · $50.000 CLP':   'https://mpago.la/2582Z9d',
+    'Pack 2 – Video · $60.000 CLP':         'https://mpago.la/2GxzBMu',
+    'Pack 3 – Foto + Video · $99.000 CLP':  'https://mpago.la/2TvFUgd',
   };
 
+  // ── URL DEL APPS SCRIPT ───────────────────────────────────────────────────
+  // ⚠️ NUEVO: reemplaza este texto por la URL real que te dará Google
+  //    al implementar el script (Implementar → Nueva implementación → copiar URL)
+  const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbyb368ZMWSoTb2QgNh9LMFN7QkW9U82sP1fXLfBXtPtC8zsjSz7_pdv9Z8afKiBEhY8-A/exec';
+
+  // ── LÓGICA DE TANDAS Y FECHA DE ENTREGA ──────────────────────────────────
+  // NUEVO: calcula la fecha de entrega según el número de orden de la clienta.
+  //
+  // Reglas acordadas:
+  //   Posiciones  1 – 15  →  Tanda 1  →  sábado 15 de agosto 2026
+  //   Posiciones 16 – 35  →  Tanda 2  →  sábado 22 de agosto 2026
+  //   Posiciones 36 – 55  →  Tanda 3  →  sábado 29 de agosto 2026
+  //   Posiciones 56 – 75  →  Tanda 4  →  sábado  5 de septiembre 2026
+  //   … cada 20 clientas adicionales suma 1 semana más
+  function calcularFechaEntrega(orden) {
+    const BASE = new Date(2026, 7, 15); // 15 de agosto 2026 (mes 7 = agosto)
+    let semanas = 0;
+
+    if (orden <= 15) {
+      semanas = 0; // Tanda 1: primeras 15
+    } else {
+      // Tandas 2 en adelante: cada 20 clientas = +1 semana
+      semanas = Math.ceil((orden - 15) / 20);
+    }
+
+    const fecha = new Date(BASE);
+    fecha.setDate(BASE.getDate() + semanas * 7);
+
+    return fecha.toLocaleDateString('es-CL', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+  }
+
+  // ── SELECCIONAR PACK DESDE LAS CARDS ─────────────────────────────────────
+  // Sin cambios: rellena el select y hace scroll al formulario
   function seleccionarPack(nombre) {
     document.getElementById('pack-select').value = nombre;
     document.getElementById('reservar').scrollIntoView({ behavior: 'smooth' });
   }
 
+  // ── ENVÍO DEL FORMULARIO ──────────────────────────────────────────────────
   function enviarReserva() {
-    const pack = document.getElementById('pack-select').value;
-    const nombre = document.getElementById('nombre').value.trim();
-    const correo = document.getElementById('correo').value.trim();
+    const pack    = document.getElementById('pack-select').value;
+    const nombre  = document.getElementById('nombre').value.trim();
+    const correo  = document.getElementById('correo').value.trim();
     const mensaje = document.getElementById('mensaje').value.trim();
 
     if (!pack || !nombre || !correo) {
       alert('Por favor completa los campos obligatorios: pack, nombre y correo.');
       return;
     }
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(correo)) {
       alert('Por favor ingresa un correo válido.');
       return;
     }
 
-    const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzek_6UXLiagPOrLa3JBIsCRSxCTkVoaCE2TaJfrg8dfpcl5jlP1PvH7dMAT_8XAdvL/exec';
-
+    // NUEVO: el script ahora devuelve el número de orden como texto plano ("8")
+    // Antes solo devolvía "OK". El script de Apps Script fue actualizado
+    // para contar las filas existentes y retornar ese número.
     fetch(URL_SCRIPT, {
       method: 'POST',
       body: JSON.stringify({ pack, nombre, correo, mensaje }),
     })
-    .then(() => {
+    .then(res => res.text())
+    .then(respuesta => {
+      // El script devuelve JSON con orden y las 3 fechas importantes
+      const { orden, seleccionTexto, plazoTexto, entregaFinalTexto } = JSON.parse(respuesta);
+
+      // Mensaje de exito con numero de orden y las 3 fechas
+      document.getElementById('success-detail').innerHTML =
+        `Eres la participante <strong>#${orden}</strong>.<br><br>` +
+        `📸 <strong>${seleccionTexto}</strong><br>` +
+        `Recibirás tus fotos en baja con marca de agua para elegir tus favoritas.<br><br>` +
+        `⏳ Tienes <strong>3 días</strong> para enviarnos tu selección, hasta el <strong>${plazoTexto}</strong>.<br><br>` +
+        `✅ <strong>${entregaFinalTexto}</strong><br>` +
+        `Fecha estimada de entrega final en alta resolución.<br><br>` +
+        `Te enviamos un correo con todos estos detalles a <strong>${correo}</strong>.<br><br>` +
+        `En 3 segundos serás redirigida al pago seguro con <strong>MercadoPago</strong> ✨`;
+
+      // Ocultamos el formulario y mostramos el mensaje de éxito
       document.getElementById('form-area').style.display = 'none';
       document.getElementById('success-msg').style.display = 'block';
 
+      // Redirigimos al link de pago después de 3 segundos
       const linkPago = LINKS_PAGO[pack];
       if (linkPago) {
-        setTimeout(() => { window.location.href = linkPago; }, 2500);
+        setTimeout(() => { window.location.href = linkPago; }, 3000);
       }
     })
     .catch(() => {
