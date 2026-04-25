@@ -397,7 +397,7 @@
         `✅ <strong>${entregaFinalTexto}</strong><br>` +
         `Fecha estimada de entrega final en alta resolución.<br><br>` +
         `Te enviamos un correo con todos estos detalles a <strong>${correo}</strong>.<br><br>` +
-        `En 3 segundos serás redirigida al pago seguro con <strong>MercadoPago</strong> ✨`;
+        `En 5 segundos serás redirigida al pago seguro con <strong>MercadoPago</strong> ✨`;
 
       // Ocultamos el formulario y mostramos el mensaje de éxito
       document.getElementById('form-area').style.display = 'none';
@@ -406,7 +406,7 @@
       // Redirigimos al link de pago después de 3 segundos
       const linkPago = LINKS_PAGO[pack];
       if (linkPago) {
-        setTimeout(() => { window.location.href = linkPago; }, 3000);
+        setTimeout(() => { window.location.href = linkPago; }, 5000);
       }
     })
     .catch(() => {
