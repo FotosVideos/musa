@@ -145,6 +145,8 @@
     .submit-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 50px; font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; margin-top: 0.75rem; transition: background 0.2s, transform 0.15s; box-shadow: 0 8px 24px rgba(42,14,79,0.22); }
     .submit-btn:hover { background: var(--primary-mid); transform: translateY(-2px); }
     .form-note { text-align: center; font-size: 12px; color: var(--gray); margin-top: 1rem; }
+    .field-error { display: none; font-size: 12px; color: #c0392b; margin-top: 5px; font-weight: 500; }
+    .field-warn  { display: none; font-size: 12px; color: #b07d00; background: #fff8dc; border: 1px solid #e8c800; border-radius: 8px; padding: 7px 12px; margin-top: 6px; line-height: 1.5; }
 
     /* SUCCESS */
     .success-msg { display: none; text-align: center; padding: 3rem 1rem; }
@@ -208,6 +210,17 @@
   </div>
   <div class="packs-grid">
 
+    <!-- Pack Mini -->
+    <div class="pack-card">
+      <p class="pack-type">Pack Mini · Fotografía</p>
+      <h3 class="pack-name">Mini Fotografía</h3>
+      <p class="pack-desc">10 fotografías con postproducción en color y blanco & negro.</p>
+      <p class="pack-note">📩 Recibirás una selección en baja resolución con marca de agua para elegir tus favoritas.</p>
+      <p class="pack-price-clp">$40.000</p>
+      <p class="pack-price-usd">CLP</p>
+      <button class="pack-btn" onclick="seleccionarPack('Pack Mini – Fotografía · $40.000 CLP')">Seleccionar</button>
+    </div>
+
     <!-- Pack 1 -->
     <div class="pack-card">
       <p class="pack-type">Pack 1 · Fotografía</p>
@@ -256,20 +269,25 @@
           <label>Pack seleccionado</label>
           <select id="pack-select">
             <option value="">— Elige un pack —</option>
+            <option>Pack Mini – Fotografía · $40.000 CLP</option>
             <option>Pack 1 – Fotografía · $50.000 CLP</option>
             <option>Pack 2 – Video · $60.000 CLP</option>
             <option>Pack 3 – Foto + Video · $99.000 CLP</option>
           </select>
+          <span class="field-error" id="pack-select-error"></span>
         </div>
 
         <div class="field-row">
           <div class="field">
             <label>Nombre</label>
             <input type="text" id="nombre" placeholder="Tu nombre" />
+            <span class="field-error" id="nombre-error"></span>
           </div>
           <div class="field">
             <label>Correo electrónico</label>
-            <input type="email" id="correo" placeholder="tu@correo.com" />
+            <input type="email" id="correo" placeholder="tu@correo.com" onblur="verificarCorreo()" />
+            <span class="field-error" id="correo-error"></span>
+            <span class="field-warn" id="correo-warn"></span>
           </div>
         </div>
 
@@ -314,6 +332,7 @@
   // ── LINKS DE PAGO MERCADOPAGO ─────────────────────────────────────────────
   // Sin cambios respecto a la versión anterior
   const LINKS_PAGO = {
+    'Pack Mini – Fotografía · $40.000 CLP':  'https://mpago.la/1HBBiSV',
     'Pack 1 – Fotografía · $50.000 CLP':   'https://mpago.la/2582Z9d',
     'Pack 2 – Video · $60.000 CLP':         'https://mpago.la/2GxzBMu',
     'Pack 3 – Foto + Video · $99.000 CLP':  'https://mpago.la/2TvFUgd',
@@ -360,21 +379,67 @@
   }
 
   // ── ENVÍO DEL FORMULARIO ──────────────────────────────────────────────────
+  // ── VERIFICAR CORREO DUPLICADO ───────────────────────────────────────────
+  function verificarCorreo() {
+    const correo = document.getElementById('correo').value.trim();
+    const warn   = document.getElementById('correo-warn');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    warn.style.display = 'none';
+    warn.textContent   = '';
+
+    if (!correo || !emailRegex.test(correo)) return;
+
+    fetch(URL_SCRIPT + '?correo=' + encodeURIComponent(correo))
+      .then(res => res.json())
+      .then(data => {
+        if (data.existe) {
+          warn.textContent   = '⚠️ Este correo ya tiene una reserva registrada (Pack: ' + data.pack + ', orden #' + data.orden + '). Puedes continuar si estás reservando por otra persona.';
+          warn.style.display = 'block';
+        }
+      })
+      .catch(() => {}); // silencioso si falla
+  }
+
+  // ── HELPERS DE VALIDACIÓN ─────────────────────────────────────────────────
+  function mostrarError(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.style.display = msg ? 'block' : 'none';
+    const inputId = id.replace('-error', '');
+    const input = document.getElementById(inputId);
+    if (input) input.style.borderColor = msg ? '#c0392b' : '';
+  }
+  function limpiarErrores() {
+    ['pack-select-error','nombre-error','correo-error'].forEach(id => mostrarError(id, ''));
+  }
+
   function enviarReserva() {
     const pack    = document.getElementById('pack-select').value;
     const nombre  = document.getElementById('nombre').value.trim();
     const correo  = document.getElementById('correo').value.trim();
     const mensaje = document.getElementById('mensaje').value.trim();
 
-    if (!pack || !nombre || !correo) {
-      alert('Por favor completa los campos obligatorios: pack, nombre y correo.');
-      return;
-    }
+    limpiarErrores();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(correo)) {
-      alert('Por favor ingresa un correo válido.');
-      return;
+    let hayError = false;
+
+    if (!pack) {
+      mostrarError('pack-select-error', '⚠️ Debes seleccionar un pack antes de continuar.');
+      hayError = true;
     }
+    if (!nombre) {
+      mostrarError('nombre-error', '⚠️ Ingresa tu nombre.');
+      hayError = true;
+    }
+    if (!correo) {
+      mostrarError('correo-error', '⚠️ Ingresa tu correo electrónico.');
+      hayError = true;
+    } else if (!emailRegex.test(correo)) {
+      mostrarError('correo-error', '⚠️ El correo no tiene un formato válido (ej: nombre@correo.com).');
+      hayError = true;
+    }
+    if (hayError) return;
 
     // NUEVO: el script ahora devuelve el número de orden como texto plano ("8")
     // Antes solo devolvía "OK". El script de Apps Script fue actualizado
